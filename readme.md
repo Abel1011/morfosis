@@ -59,3 +59,10 @@ Follow these steps to add the Mórfosis extension to Google Chrome:
 - **Translate**: Translate text seamlessly into multiple languages.
 - **Suggestions**: Use AI-powered prompts for creative ideas, child-friendly explanations, example creation, and more.
 - **Chat**: Engage in dynamic conversations with the built-in AI assistant.
+- **Automatic Replacement**: Automatically replace selected text with the AI-generated text in text areas or editors (e.g., WordPress) for enhanced ease of use.
+- **Keyboard Shortcut**: Open the chat instantly using **Control + M** for quick interaction with the AI assistant.
+- **Customizable Menu**: The extension menu can be disabled from the settings for a cleaner browsing experience.
+
+---
+
+If you have any suggestions or encounter issues, feel free to open an issue on the repository. Enjoy transforming your writing with Mórfosis!
