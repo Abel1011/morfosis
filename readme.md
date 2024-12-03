@@ -1,7 +1,3 @@
-Aquí tienes el README actualizado y listo para copiar y pegar:
-
----
-
 # Mórfosis: Transform Your Writing Effortlessly
 
 **Mórfosis** is a Chrome extension designed to enhance your writing experience using the power of Gemini Nano AI. Whether you need to rewrite, summarize, translate, or generate suggestions for your text, Mórfosis offers seamless solutions directly within your browser.
