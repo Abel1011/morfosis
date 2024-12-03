@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Mórfosis: Transform Your Writing Effortlessly",
+    "version": "1.0.0",
+    "description": "Transform your writing with ease using Gemini Nano AI. Rewrite, summarize, translate, or enhance any text effortlessly to boost productivity and elevate your communication.",
+    "permissions": ["activeTab", "storage"],
+    "host_permissions": ["<all_urls>"],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["src/textarea-caret.js", "src/marked.js" , "src/index.js"],
+        "css": ["src/styles.css"],
+        "all_frames": true
+      }
+    ],
+    "icons": {
+      "96": "icons/morfosis.png"
+    }
+  }
+  

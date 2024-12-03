@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mórfosis</title>
+  <link href="src/styles.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 p-4 min-w-[36rem] h-full overflow-y-auto">
+  <div class="flex justify-between items-center border-b border-gray-900/10 pb-6">
+    <div>
+      <h1 class="text-xl font-bold mb-4">Mórfosis</h1>
+      <p class="text-sm/6 text-gray-600">
+        Configure the options for rewriting, summarizing, suggesting, and translating text. Then select the text you want to process and click on the Mórfosis icon in the browser toolbar. Alternatively, you can press <span class="font-medium">Ctrl + M</span> to open the chat.
+      </p>
+    </div>
+    <button id="enableSwitch" type="button" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-200" role="switch" aria-checked="false">
+      <span class="sr-only">Use setting</span>
+      <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+    </button>
+  </div>
+  
+  <form id="configForm" class="mb-12">
+    <div class="space-y-12">
+      <div class="border-b border-gray-900/10 py-6">
+        <h2 class="text-base/7 font-semibold text-gray-900">
+          Rewrite
+        </h2>
+        <p class="mt-1 text-sm/6 text-gray-600">
+          Configures the options for rewriting the text.
+        </p>
+
+        <div class="mt-4">
+          <label for="customCommand" class="block text-sm/6 font-medium text-gray-900">
+            Custom Command
+          </label>
+          <div class="mt-2">
+            <textarea 
+              name="customCommand" 
+              id="customCommand" 
+              rows="3" 
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 disabled:bg-gray-200" 
+              placeholder="Enter the custom command for rewriting here..."
+              ></textarea>
+          </div>
+        </div> 
+        </div>
+      </div>
+  
+      <div class="border-b border-gray-900/10 py-6">
+        <h2 class="text-base/7 font-semibold text-gray-900">
+          Summarize
+        </h2>
+        <p class="mt-1 text-sm/6 text-gray-600">
+          Configures the options for summarizing the text.
+        </p>
+
+        <div class="mt-4">
+          <label for="length" class="block text-sm/6 font-medium text-gray-900">
+            Length of the summary
+          </label>
+          <div class="mt-2 grid grid-cols-1">
+            <select id="length" name="length" autocomplete="length" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 disabled:bg-gray-200">
+              <option value="short">Short</option>
+              <option value="medium">Medium</option>
+              <option value="long">Long</option>
+            </select>
+            <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+              <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+  
+      </div>
+  
+      <div class="border-b border-gray-900/10 py-6">
+        <h2 class="text-base/7 font-semibold text-gray-900">
+          Suggestions
+        </h2>
+        <p class="mt-1 text-sm/6 text-gray-600">
+          Configures the options for the suggestions.
+        </p>
+  
+        <div class="mt-4">
+          <label for="systemPrompt" class="block text-sm/6 font-medium text-gray-900">System Prompt</label>
+          <div class="mt-2">
+            <textarea name="systemPrompt" id="systemPrompt" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 disabled:bg-gray-200" placeholder="Enter the system prompt here..."></textarea>
+          </div>
+        </div>
+        <div class="mt-4">
+          <label for="templatePrompt" class="block text-sm/6 font-medium text-gray-900">Template Prompt</label>
+          <div class="mt-2">
+            <textarea name="templatePrompt" id="templatePrompt" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 disabled:bg-gray-200" placeholder="Enter the template prompt here. Use {SELECTED_TEXT} to indicate where the selected text should be inserted."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-b border-gray-900/10 py-6">
+        <h2 class="text-base/7 font-semibold text-gray-900">
+          Translate
+        </h2>
+        <p class="mt-1 text-sm/6 text-gray-600">
+          Configures the options for translating the text.
+        </p>
+  
+        <div class="mt-4">
+          <label for="targetLanguage" class="block text-sm/6 font-medium text-gray-900">
+            Target Language
+          </label>
+          <div class="mt-2 grid grid-cols-1">
+            <select id="targetLanguage" name="targetLanguage" autocomplete="targetLanguage" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 disabled:bg-gray-200">
+              <option value="es">Spanish</option>
+              <option value="en">English</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+            </select>
+            <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+              <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="mt-6">
+      <button type="submit" class="w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50">Save</button>
+    </div>
+    <div id="messages"></div>
+  </form>
+  <script src="popup.js"></script>
+</body>
+</html>
