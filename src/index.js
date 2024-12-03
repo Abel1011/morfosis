@@ -1,3 +1,10 @@
+//Librerias
+marked.setOptions({
+  breaks: true, // Permite saltos de línea con un solo retorno
+  gfm: true,    // GitHub Flavored Markdown
+  sanitize: true // Sanitiza el HTML por seguridad
+});
+
 //VARIABLES DE CONFIGURACIÓN
 let enabled = true;
 let customCommand = '';
@@ -74,7 +81,7 @@ document.body.appendChild(menu);
 
 const suggestionsContainer = document.createElement('div');
 suggestionsContainer.id = 'suggestions-container';
-suggestionsContainer.classList.add('fixed', 'bottom-0', 'left-0', 'w-full', 'bg-gray-100', 'p-4');
+suggestionsContainer.classList.add('fixed', 'bottom-0', 'left-0', 'w-full', 'bg-gray-100');
 document.body.appendChild(suggestionsContainer);
 
 // BOTONES
@@ -158,7 +165,7 @@ const BUTTONS = [
       },
       {
         text: "Longer",
-        emoji: '📝',
+        emoji: '📏',
         action: async (event, modal) => {
           await handleRewrite({
             sharedContext: "Rewrite this text to make it longer. Do not provide greetings or comments, just rewrite the text to make it longer. Add more details if necessary.",
@@ -187,6 +194,8 @@ const BUTTONS = [
         emoji: '👀',
         action: async (event, modal) => {
           await handleSummarize({
+            sharedContext: "You are a writer specialized in creative writing and text generation. Your task is to summarize the text in a tl;dr format.",
+            context: "Summarize this text in a tl;dr format. Do not provide greetings or comments, just summarize the text in a tl;dr format.",
             type: 'tl;dr'
           }, 'tl;dr', modal, event);
         }
@@ -196,6 +205,8 @@ const BUTTONS = [
         emoji: '🔑',
         action: async (event, modal) => {
           await handleSummarize({
+            sharedContext: "You are a writer specialized in creative writing and text generation. Your task is to summarize the key points in any given text.",
+            context: "Summarize the key points in this text. Do not provide greetings or comments, just summarize the key points in the text.",
             type: 'key-points'
           }, 'Key Points', modal, event);
         }
@@ -205,6 +216,8 @@ const BUTTONS = [
         emoji: '✨',
         action: async (event, modal) => {
           await handleSummarize({
+            sharedContext: "You are a writer specialized in creative writing and text generation. Your task is to summarize the text in a teaser.",
+            context: "Summarize this text in a teaser. Do not provide greetings or comments, just summarize the text in a teaser.",
             type: 'teaser'
           }, 'Teaser', modal, event);
         }
@@ -214,6 +227,8 @@ const BUTTONS = [
         emoji: '📰',
         action: async (event, modal) => {
           await handleSummarize({
+            sharedContext: "You are a writer specialized in creative writing and text generation. Your task is to summarize the text in a headline.",
+            context: "Summarize this text in a headline. Do not provide greetings or comments, just summarize the text in a headline.",
             type: 'headline'
           }, 'Headline', modal, event);
         }
@@ -230,7 +245,7 @@ const BUTTONS = [
         action: async (event, modal) => {
           await handlePrompt({
             systemPrompt: "You are a writer specialized in creative writing and text generation. Your task is to seamlessly continue any given text, maintaining its tone, style, and context.",
-            prompt: "TEXT: {SELECTED_TEXT}\n\nPlease generate an immediate continuation of the text, ensuring that the tone, style, and context of the original writing are preserved. Do not provide greetings or comments, just continue the text."
+            prompt: "TEXT: {SELECTED_TEXT}\n\nPlease generate an immediate continuation of the text, ensuring that the tone, style, and context of the original writing are preserved. Do not provide greetings or comments, just continue the text, and only one option is required."
           }, "Continue writing", modal, "Suggestions", event);
         }
       },
@@ -324,8 +339,9 @@ const BUTTONS = [
 
 BUTTONS.forEach((buttonData) => {
   const button = document.createElement('button');
-  button.classList.add('bg-white', 'text-gray-900', 'px-2.5', 'py-1.5', 'text-sm', 'font-semibold', 'shadow-sm', 'ring-1', 'ring-inset', 'ring-gray-300', 'hover:bg-gray-50', 'rounded-md');
+  button.classList.add('bg-white', 'text-gray-900', 'px-2.5', 'py-1.5', 'text-sm', 'font-medium', 'shadow-sm', 'ring-1', 'ring-inset', 'ring-gray-300', 'hover:bg-gray-50', 'rounded-md');
   button.setAttribute('tabindex', '-1');
+  button.zIndex = 9991;
 
   button.innerText = `${buttonData.emoji} ${buttonData.text}`;
 
@@ -336,10 +352,8 @@ BUTTONS.forEach((buttonData) => {
     button.addEventListener('mouseleave', (event) => {
       handleMouseLeaveSubmenu(event);
     });
-  } else {
-    button.addEventListener('click', buttonData.action);
-  }
-  button.addEventListener('mousedown', (event) => {
+  } 
+  button.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
     if (buttonData.subMenu) {
@@ -348,6 +362,7 @@ BUTTONS.forEach((buttonData) => {
       buttonData.action(event);
     }
   });
+
   menu.appendChild(button);
 });
 
@@ -602,7 +617,7 @@ function showSubMenu(parentButton, subMenuItems) {
   subMenuItems.forEach((item) => {
     const subButton = document.createElement('button');
     subButton.setAttribute('tabindex', '-1');
-    subButton.classList.add('block', 'px-4', 'py-2', 'text-sm', 'text-gray-700', 'w-full', 'text-left', 'hover:bg-gray-100', 'hover:text-gray-900', 'focus:outline-none');
+    subButton.classList.add('block', 'px-4', 'py-2', 'text-sm', 'text-gray-700', 'w-full', 'text-left', 'hover:bg-gray-100', 'hover:text-gray-900', 'focus:outline-none', 'm-0');
     subButton.innerText = `${item.emoji} ${item.text}`;
     subButton.addEventListener('click', async (event) => {
       hideFloatingMenu();
@@ -711,7 +726,7 @@ function openModalWithLoader(title, subMenuItems = [], event) {
 
   const modalTitle = document.createElement('h2');
   modalTitle.innerText = title;
-  modalTitle.classList.add('text-xl', 'font-semibold', 'mt-0', 'text-black');
+  modalTitle.classList.add('text-xl', 'font-semibold', 'my-0', 'text-black');
 
   modalHeader.appendChild(modalTitle);
 
@@ -809,11 +824,12 @@ async function handleAction(actionType, params = {}, actionTitle = '', modal = n
           instance = await ai.rewriter.create(params);
           stream = instance.rewriteStreaming(selectedText);
         } else if (actionType === 'Summarize') {
+          const { context, ...rest } = params;
           instance = await ai.summarizer.create({
-            ...params,
+            ...rest,
             length
           });
-          stream = instance.summarizeStreaming(selectedText);
+          stream = instance.summarizeStreaming(selectedText, {context});
         } else if (actionType === 'Suggestions') {
           const { sharedContext, context } = params;
           instance = await ai.writer.create({sharedContext});
@@ -850,18 +866,18 @@ async function handleAction(actionType, params = {}, actionTitle = '', modal = n
 
         // Contenedor de texto
         const textContainer = document.createElement('div');
-        textContainer.classList.add('whitespace-pre-wrap', 'text-sm', 'text-blue-600');
+        textContainer.classList.add('whitespace-pre-wrap', 'text-sm', 'text-blue-600', 'markdown-content');
         resultContainer.appendChild(textContainer);
 
         // Botones de copiar, reemplazar y eliminar
         const buttonsContainer = document.createElement('div');
-        buttonsContainer.classList.add('absolute', 'top-2', 'right-2', 'flex', 'space-x-2');
+        buttonsContainer.classList.add('absolute', 'top-2', 'right-2', 'flex', 'space-x-2', 'items-center');
 
         // Botón de copiar
         const copyButton = document.createElement('button');
         copyButton.title = 'Copy Text';
         copyButton.innerText = '📋';
-        copyButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none');
+        copyButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none', 'flex', 'items-center', 'justify-center');
         copyButton.addEventListener('click', () => {
           navigator.clipboard.writeText(textContainer.innerText);
         });
@@ -874,7 +890,7 @@ async function handleAction(actionType, params = {}, actionTitle = '', modal = n
           replaceButton.tabIndex = -1;
           replaceButton.title = 'Replace Text';
           replaceButton.innerText = '🔄';
-          replaceButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none');
+          replaceButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none', 'flex', 'items-center', 'justify-center');
           replaceButton.addEventListener('click', () => {
             replaceSelectedText(textContainer.innerText);
             hideModal();
@@ -892,7 +908,7 @@ async function handleAction(actionType, params = {}, actionTitle = '', modal = n
         deleteButton.title = 'Delete Result';
         //Equis de texto
         deleteButton.innerText = '×';
-        deleteButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none');
+        deleteButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none', 'flex', 'items-center', 'justify-center');
         deleteButton.addEventListener('click', () => {
           resultContainer.remove();
         });
@@ -913,7 +929,7 @@ async function handleAction(actionType, params = {}, actionTitle = '', modal = n
           // Para acciones que retornan un stream
           for await (const chunk of stream) {
             accumulatedText = chunk;
-            textContainer.innerText = accumulatedText;
+            textContainer.innerHTML = marked.parse(accumulatedText);
             // Permitir que el navegador actualice la interfaz de usuario
             await new Promise(requestAnimationFrame);
           }
@@ -1106,7 +1122,7 @@ async function handleChat() {
   const resetButton = document.createElement('button');
   resetButton.innerText = '🔄';
   resetButton.title = 'New Conversation';
-  resetButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none');
+  resetButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none', 'flex', 'items-center', 'justify-center');
   resetButton.addEventListener('click', () => {
     if (session) {
       session.destroy();
@@ -1146,7 +1162,7 @@ async function handleChat() {
 
   // Área de entrada
   const inputArea = document.createElement('div');
-  inputArea.classList.add('p-4', 'border-t', 'flex', 'space-x-2');
+  inputArea.classList.add('p-4', 'border-t', 'flex', 'space-x-2', 'items-center');
 
   const inputField = document.createElement('textarea');
   inputField.classList.add(
@@ -1154,6 +1170,8 @@ async function handleChat() {
     'border',
     'border-gray-200',
     'bg-white',
+    'text-gray-900',
+    'placeholder-gray-500',
     'rounded',
     'p-2',
     'resize',
@@ -1172,12 +1190,13 @@ async function handleChat() {
 
   const sendButton = document.createElement('button');
   sendButton.innerText = 'Send';
-  sendButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded');
+  sendButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded', 'h-full');
   inputArea.appendChild(sendButton);
   chatContainer.appendChild(inputArea);
 
   modal.appendChild(chatContainer);
   document.body.appendChild(modal);
+  inputField.focus();
 
   let session = null;
 
@@ -1201,18 +1220,12 @@ async function handleChat() {
     const copyButton = document.createElement('button');
     copyButton.title = 'Copy Text';
     copyButton.innerText = '📋';
-    copyButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none');
+    copyButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none', 'flex', 'items-center', 'justify-center');
     // Utiliza el texto sin formato al copiar
     copyButton.addEventListener('click', () => {
       navigator.clipboard.writeText(userMessage);
     });
     userMessageDiv.appendChild(copyButton);
-
-    marked.setOptions({
-      breaks: true, // Permite saltos de línea con un solo retorno
-      gfm: true,    // GitHub Flavored Markdown
-      sanitize: true // Sanitiza el HTML por seguridad
-    });
 
     const userMessageContent = document.createElement('div');
     userMessageContent.classList.add(
@@ -1257,7 +1270,7 @@ async function handleChat() {
     const aiCopyButton = document.createElement('button');
     aiCopyButton.title = 'Copy Text';
     aiCopyButton.innerText = '📋';
-    aiCopyButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none');
+    aiCopyButton.classList.add('p-2', 'hover:bg-gray-200', 'hover:rounded', 'focus:outline-none', 'flex', 'items-center', 'justify-center');
     // Variable para almacenar el texto sin formato de la IA
     let aiMessageRawText = '';
     aiCopyButton.addEventListener('click', () => {
