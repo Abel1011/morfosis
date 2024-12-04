@@ -26,10 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('templatePrompt').value = settings.templatePrompt;
     }
   
-    if (settings.targetLanguage) {
-      document.getElementById('targetLanguage').value = settings.targetLanguage;
-    }
-  
     // Añadir evento al interruptor
     enableSwitch.addEventListener('click', () => {
       const currentState = enableSwitch.getAttribute('aria-checked') === 'true';
