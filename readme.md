@@ -75,7 +75,7 @@ Below is an example of a recipe that demonstrates how Mórfosis can handle multi
 
 ### Pizza Recipe Workflow
 
-    ```text
+    ```
     [command prompt="Create a section titled 'Ingredients' and list only the ingredients required to make a basic homemade pizza. Do not include preparation steps or additional context. Include the subtitle as part of the output." systemPrompt="You are a professional chef specializing in Italian cuisine. Provide a clear, concise list of ingredients." lookBack="false"]
     [command prompt="Create a section titled 'Preparation' and describe the step-by-step preparation process for making a homemade pizza using only the ingredients provided above. Avoid listing ingredients again. Include the subtitle as part of the output." systemPrompt="You are a professional chef specializing in Italian cuisine. Focus solely on preparation steps based on the previous content." lookBack="true"]
     [command prompt="Create a section titled 'Recommendations' and provide tips and tricks for improving the process or enhancing the pizza's flavor based on the ingredients and preparation steps above. Avoid repeating steps or ingredients. Include the subtitle as part of the output." systemPrompt="You are a professional chef specializing in Italian cuisine. Offer concise, practical advice specific to this recipe." lookBack="true"]
